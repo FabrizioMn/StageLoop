@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content" class="container-fluid mt-4">
+    
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+        <div>
+            <h1 class="h2 fw-bold text-dark">Panel de Control</h1>
+            <p class="text-muted">Resumen general de StageLoop</p>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                <i class="bi bi-printer me-1"></i> Reporte
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body position-relative">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success bg-opacity-10 text-success rounded-3 p-2 me-3">
+                            <i class="bi bi-currency-dollar fs-3"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted text-uppercase fw-semibold ls-1">Ingresos</h6>
+                    </div>
+                    <h2 class="card-title fw-bold mb-0">S/ <span th:text="${totalIngresos}">0.00</span></h2>
+                    <i class="bi bi-graph-up position-absolute bottom-0 end-0 fs-1 text-success opacity-25 me-3 mb-2"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden border-start border-4 border-warning">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-warning bg-opacity-10 text-warning rounded-3 p-2 me-3">
+                            <i class="bi bi-inbox-fill fs-3"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted text-uppercase fw-semibold">Solicitudes</h6>
+                    </div>
+                    <div class="d-flex align-items-baseline">
+                        <h2 class="card-title fw-bold mb-0 me-2" th:text="${solicitudesPendientes}">0</h2>
+                        <span class="text-muted small">pendientes</span>
+                    </div>
+                    <a th:href="@{/requests}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
+                            <i class="bi bi-calendar-event fs-3"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted text-uppercase fw-semibold">Eventos</h6>
+                    </div>
+                    <h2 class="card-title fw-bold mb-0" th:text="${totalEventos}">0</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-info bg-opacity-10 text-info rounded-3 p-2 me-3">
+                            <i class="bi bi-people-fill fs-3"></i>
+                        </div>
+                        <h6 class="card-subtitle text-muted text-uppercase fw-semibold">Usuarios</h6>
+                    </div>
+                    <h2 class="card-title fw-bold mb-0" th:text="${totalUsuarios}">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0 fw-bold">Resumen de Actividad</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="miGrafico"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0 fw-bold">Últimas Ventas</h5>
+                    <a href="#" class="btn btn-sm btn-light text-primary fw-bold">Ver Todo</a>
+                </div>
+                <div class="list-group list-group-flush">
+                    
+                    <div th:each="orden : ${ultimasOrdenes}" class="list-group-item px-3 py-3 d-flex align-items-center">
+                        <div class="bg-light rounded-circle p-2 me-3 text-primary">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 fw-bold text-dark" th:text="${orden.usuario.nombre}">Cliente</h6>
+                            <small class="text-muted">
+                                <i class="bi bi-clock me-1"></i>
+                                <span th:text="${#temporals.format(orden.fechaOrden, 'dd/MM HH:mm')}">Fecha</span>
+                            </small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-success rounded-pill">Pagado</span>
+                            <div class="small text-muted mt-1 fw-bold">Orden #<span th:text="${orden.idOrden}"></span></div>
+                        </div>
+                    </div>
+
+                    <div th:if="${ultimasOrdenes.isEmpty()}" class="text-center p-4 text-muted">
+                        <i class="bi bi-cart-x fs-2 mb-2 d-block"></i>
+                        No hay ventas registradas hoy.
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('miGrafico');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'Entradas Vendidas',
+                    data: [12, 19, 3, 5, 2, 3, 15], // Datos "dummy" para que se vea bonito
+                    backgroundColor: '#E50914', // Tu rojo corporativo
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
+
+</div>
+</html>

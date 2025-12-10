@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - StageLoop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" th:href="@{/logo.ico}" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+  <div class="position-absolute top-0 start-0 m-3 z-3">
+    <a th:href="@{/}" class="btn btn-outline-danger fw-bold">
+        &larr; Regresar
+    </a>
+  </div>
+
+  <section class="vh-100 bg-light">
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        
+        <div class="col-sm-6 text-black d-flex flex-column justify-content-center bg-white">
+          
+          <div class="px-5 mx-auto d-flex align-items-center mb-5">
+            <img th:src="@{/logo.ico}" alt="Logo" style="height: 50px" class="me-3" />
+            <span class="h1 fw-bold mb-0 text-primary">StageLoop</span> </div>
+
+          <div class="px-5 ms-xl-4">
+            <form th:action="@{/login}" method="post" style="width: 23rem; margin: 0 auto;">
+              
+              <h3 class="fw-bold mb-4" style="letter-spacing: 1px">Inicia Sesión</h3>
+
+              <div class="form-outline mb-4">
+                <label class="form-label fw-semibold" for="email">Correo electrónico</label>
+                <input type="email" id="email" name="username" class="form-control form-control-lg border-2" required />
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label fw-semibold" for="password">Contraseña</label>
+                <input type="password" id="password" name="password" class="form-control form-control-lg border-2" required />
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="remember-me" id="rememberMe">
+                      <label class="form-check-label text-muted" for="rememberMe">Recordarme</label>
+                  </div>
+                  <a class="text-muted small" href="#!">¿Olvidaste tu contraseña?</a>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg btn-block w-100 shadow-sm">Ingresar</button>
+
+              <p class="mt-4 text-center">
+                ¿No tienes una cuenta?
+                <a th:href="@{/register}" class="link-danger fw-bold">Regístrate aquí</a>
+              </p>
+
+              <div th:if="${param.error}" class="alert alert-danger mt-3 text-center" role="alert">
+                Usuario o contraseña incorrectos.
+              </div>
+              <div th:if="${param.logout}" class="alert alert-success mt-3 text-center" role="alert">
+                Has cerrado sesión correctamente.
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <div class="col-sm-6 px-0 d-none d-sm-block">
+          <img th:src="@{/img/fondoLogin.jpg}" 
+               alt="Login image" class="w-100 vh-100"
+               style="object-fit: cover; object-position: center;" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

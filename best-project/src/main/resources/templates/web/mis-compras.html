@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Mis Compras - StageLoop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+    <div th:replace="~{fragments/general :: navbar}"></div>
+
+    <main class="flex-grow-1 container py-5">
+        
+        <h2 class="mb-4 fw-bold text-dark border-bottom pb-2">
+            <i class="bi bi-ticket-perforated-fill text-primary me-2"></i> Mis Entradas
+        </h2>
+
+        <div th:if="${ordenes.isEmpty()}" class="text-center py-5">
+            <div class="mb-3 text-muted">
+                <i class="bi bi-cart-x" style="font-size: 4rem;"></i>
+            </div>
+            <h4>Aún no tienes entradas.</h4>
+            <p class="text-muted">¡Explora los mejores eventos y vive la experiencia!</p>
+            <a th:href="@{/explorar}" class="btn btn-primary mt-3">Ir a Explorar</a>
+        </div>
+
+        <div th:unless="${ordenes.isEmpty()}" class="row g-4">
+            
+            <div th:each="orden : ${ordenes}" class="col-lg-12">
+                <div class="card shadow-sm border-0 overflow-hidden">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <small class="text-muted text-uppercase fw-bold">Orden #<span th:text="${orden.idOrden}"></span></small>
+                            <span class="mx-2">|</span>
+                            <small class="text-muted">Comprado el: <span th:text="${#temporals.format(orden.fechaOrden, 'dd MMM yyyy HH:mm')}"></span></small>
+                        </div>
+                        <span class="badge bg-success">Pagado</span>
+                    </div>
+
+                    <div class="card-body">
+                        <div th:each="detalle : ${orden.detalles}" class="row align-items-center mb-3">
+                            
+                            <div class="col-md-2 text-center">
+                                <img th:src="@{'https://picsum.photos/seed/' + ${detalle.evento.idEvento} + '/150/100'}" 
+                                     class="rounded img-fluid" alt="Evento">
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5 class="fw-bold mb-1 text-primary" th:text="${detalle.evento.titulo}">Nombre Evento</h5>
+                                <p class="mb-1 text-muted small">
+                                    <i class="bi bi-geo-alt-fill"></i> <span th:text="${detalle.evento.lugarEvento}">Lugar</span>
+                                    <span class="mx-2">•</span>
+                                    <i class="bi bi-calendar-event"></i> <span th:text="${detalle.evento.fechaEvento}">Fecha</span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-2 text-center">
+                                <span class="d-block fw-bold text-dark"><span th:text="${detalle.cantidad}"></span> Entradas</span>
+                                <small class="text-muted">x S/ <span th:text="${detalle.precioUnitario}"></span></small>
+                            </div>
+
+                            <div class="col-md-2 text-end">
+                                <h5 class="fw-bold text-success">S/ <span th:text="${detalle.subtotal}"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-light d-flex justify-content-end gap-2 py-3">
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-download me-1"></i> Descargar PDF
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-qr-code me-1"></i> Ver QR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/general :: footer}"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

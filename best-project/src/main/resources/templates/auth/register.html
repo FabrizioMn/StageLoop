@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse - StageLoop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" th:href="@{/logo.ico}" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+  <div class="position-absolute top-0 start-0 m-3 z-3">
+    <a th:href="@{/login}" class="btn btn-outline-danger fw-bold">&larr; Volver al Login</a>
+  </div>
+
+  <section class="vh-100 bg-light">
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        
+        <div class="col-sm-6 text-black d-flex flex-column justify-content-center bg-white">
+          <div class="form-wrapper" style="width: 28rem; margin: 0 auto;">
+
+            <div class="px-4 mx-auto d-flex align-items-center mb-5">
+              <img th:src="@{/logo.ico}" alt="Logo" style="height: 50px" class="me-3" />
+              <span class="h1 fw-bold mb-0 text-primary">StageLoop</span>
+            </div>
+
+            <form th:action="@{/register/save}" th:object="${usuario}" method="post">
+
+              <h3 class="fw-bold mb-4" style="letter-spacing: 1px">Crea tu Cuenta</h3>
+              
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Nombre Completo</label>
+                  <input type="text" th:field="*{nombre}" 
+                         class="form-control" 
+                         th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''"
+                         placeholder="Ej: Juan Pérez" />
+                  
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Email</label>
+                  <input type="text" th:field="*{email}" 
+                         class="form-control"
+                         th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                         placeholder="nombre@correo.com" />
+                  
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Teléfono</label>
+                  <input type="text" th:field="*{numTelefono}" 
+                         class="form-control"
+                         th:classappend="${#fields.hasErrors('numTelefono')} ? 'is-invalid' : ''"
+                         placeholder="9 digits" />
+                  
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('numTelefono')}" th:errors="*{numTelefono}"></div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Contraseña</label>
+                  <input type="password" th:field="*{contrasena}" 
+                         class="form-control"
+                         th:classappend="${#fields.hasErrors('contrasena')} ? 'is-invalid' : ''" />
+                  
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></div>
+                </div>
+                
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">Registrarse</button>
+                </div>
+              </div>
+
+              <div class="text-center mt-4">
+                <p class="mb-0">¿Ya tienes cuenta? <a th:href="@{/login}" class="link-danger fw-bold">Inicia sesión</a></p>
+              </div>
+
+              <div th:if="${error}" class="alert alert-danger mt-3 text-center">
+                  <i class="bi bi-exclamation-circle-fill me-2"></i> <span th:text="${error}"></span>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+        <div class="col-sm-6 px-0 d-none d-sm-block">
+             <img th:src="@{/img/fondoLogin.jpg}" class="w-100 vh-100" style="object-fit: cover;" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

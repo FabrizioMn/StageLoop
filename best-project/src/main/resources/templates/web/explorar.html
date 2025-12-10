@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorar Eventos - StageLoop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="icon" th:href="@{/logo.ico}" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+  <div th:replace="~{fragments/general :: navbar}"></div>
+
+  <main class="flex-grow-1">
+    <div class="container py-5">
+      <h2 class="text-center mb-5 fw-bold text-primary">Explorar Eventos</h2>
+
+      <div th:if="${#lists.isEmpty(eventos)}" class="alert alert-info text-center shadow-sm py-4">
+        <i class="bi bi-calendar-x fs-1 d-block mb-3"></i>
+        <h4>No hay eventos activos en este momento.</h4>
+        <p class="mb-0">Intenta volver más tarde.</p>
+      </div>
+
+      <div th:each="evento : ${eventos}" class="card mb-4 shadow-sm border-0 rounded-3 overflow-hidden hover-shadow">
+        <div class="row g-0"> <div class="col-md-8 order-2 order-md-1 d-flex flex-column">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h4 class="card-title fw-bold text-dark mb-2" th:text="${evento.titulo}">Título</h4>
+                    <span class="badge bg-secondary" th:text="${evento.categoria.nombreCategoria}">Categoría</span>
+                </div>
+                
+                <p class="card-text text-muted mb-3" th:text="${#strings.abbreviate(evento.descripcion, 200)}">Desc</p>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled text-secondary small">
+                            <li class="mb-1">
+                                <i class="bi bi-calendar3 me-1"></i> <strong>Fecha:</strong> <span th:text="${evento.fechaEvento}"></span>
+                            </li>
+                            <li class="mb-1">
+                                <i class="bi bi-clock me-1"></i> <strong>Hora:</strong> <span th:text="${evento.horaInicio}"></span> - <span th:text="${evento.horaFin}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled text-secondary small">
+                             <li class="mb-1">
+                                 <i class="bi bi-geo-alt-fill me-1"></i> <strong>Lugar:</strong> <span th:text="${evento.lugarEvento}"></span>
+                             </li>
+                             <li class="mb-1 text-success fs-5">
+                                 <strong>S/ <span th:text="${evento.precio}"></span></strong>
+                             </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between mt-auto">
+                    <div class="text-muted small">
+                        <i class="bi bi-people me-1"></i> Aforo: <span th:text="${evento.capacidad}"></span>
+                    </div>
+                    <a th:href="@{'/checkout/' + ${evento.idEvento}}" class="btn btn-primary px-4 rounded-pill fw-bold shadow-sm">
+                        Comprar Entradas
+                    </a>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 order-1 order-md-2">
+            
+            <img th:if="${evento.imagen != null and #arrays.length(evento.imagen) > 0}"
+                 th:src="@{'/imagen/ver/' + ${evento.idEvento}}" 
+                 alt="Imagen del evento" 
+                 class="img-fluid w-100 h-100"
+                 style="object-fit: cover; max-height: 250px;" />
+                 
+            <img th:unless="${evento.imagen != null and #arrays.length(evento.imagen) > 0}"
+                 src="https://picsum.photos/600/400?grayscale" 
+                 alt="Imagen por defecto" 
+                 class="img-fluid w-100 h-100"
+                 style="object-fit: cover; min-height: 250px;" />
+          
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/general :: footer}"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

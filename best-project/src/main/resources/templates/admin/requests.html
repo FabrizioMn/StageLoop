@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content" class="container mt-4">
+    
+    <h2 class="mb-4">Solicitudes de Eventos Pendientes</h2>
+
+    <div th:if="${solicitudes.isEmpty()}" class="alert alert-info">
+        No hay solicitudes pendientes de revisión.
+    </div>
+
+    <div th:unless="${solicitudes.isEmpty()}" class="row">
+        <div th:each="sol : ${solicitudes}" class="col-12 mb-3">
+            <div class="card border-warning"> <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-primary" th:text="${sol.titulo}">Título</h5>
+                        <p class="mb-1 text-muted" th:text="${sol.descripcion}">Desc</p>
+                        <small>
+                            <strong>Solicitante:</strong> <span th:text="${sol.organizador.nombre}">Nombre</span> |
+                            <strong>Fecha:</strong> <span th:text="${sol.fechaEvento}">Fecha</span>
+                        </small>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/requests/reject/{id}(id=${sol.idEvento})}" 
+                           class="btn btn-outline-danger"
+                           onclick="return confirm('¿Rechazar este evento?');">
+                           Rechazar
+                        </a>
+                        
+                        <a th:href="@{/requests/approve/{id}(id=${sol.idEvento})}" 
+                           class="btn btn-success">
+                           <i class="bi bi-check-circle"></i> Aprobar y Publicar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content" class="container-fluid mt-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark">Gestión de Organizadores</h2>
+            <p class="text-muted">Administra los usuarios con permisos de organización</p>
+        </div>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearOrgModal">
+            <i class="bi bi-person-plus-fill me-1"></i> Nuevo Organizador
+        </button>
+    </div>
+
+    <div th:if="${param.updated}" class="alert alert-warning alert-dismissible fade show">
+        Organizador actualizado correctamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.created}" class="alert alert-success alert-dismissible fade show">
+        Organizador creado correctamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <strong>Error:</strong> <span th:text="${param.error}">Mensaje de error aquí</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Nombre</th>
+                            <th>Contacto</th>
+                            <th class="text-end pe-4">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="org : ${organizadores}">
+                            <td class="ps-4 fw-bold" th:text="'#' + ${org.idUsuario}">#1</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3">
+                                        <i class="bi bi-person-fill fs-5"></i>
+                                    </div>
+                                    <span class="fw-bold" th:text="${org.nombre}">Nombre</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="small"><i class="bi bi-envelope me-2"></i> <span th:text="${org.email}">Email</span></div>
+                                <div class="small text-muted"><i class="bi bi-telephone me-2"></i> <span th:text="${org.numTelefono}">Tel</span></div>
+                            </td>
+                            <td class="text-end pe-4">
+                                
+                                <button class="btn btn-warning btn-sm me-1" 
+                                        data-bs-toggle="modal" 
+                                        th:attr="data-bs-target='#editOrgModal' + ${org.idUsuario}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <a th:href="@{/organizers/delete/{id}(id=${org.idUsuario})}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Eliminar a este organizador? Se borrarán sus eventos asociados.');">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+
+                                <div class="modal fade text-start" 
+                                     th:id="'editOrgModal' + ${org.idUsuario}" 
+                                     tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning text-dark">
+                                                <h5 class="modal-title fw-bold">Editar Organizador</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            
+                                            <form th:action="@{/organizers/update}" method="post">
+                                                <div class="modal-body">
+                                                    
+                                                    <input type="hidden" name="idUsuario" th:value="${org.idUsuario}">
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold">Nombre Completo</label>
+                                                        <input type="text" name="nombre" class="form-control" th:value="${org.nombre}" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold">Email</label>
+                                                        <input type="email" name="email" class="form-control" th:value="${org.email}" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold">Teléfono</label>
+                                                        <input type="text" name="numTelefono" class="form-control" th:value="${org.numTelefono}" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold">Contraseña</label>
+                                                        <input type="password" name="contrasena" class="form-control" placeholder="(Dejar en blanco para no cambiar)">
+                                                        <div class="form-text">Solo escribe aquí si quieres cambiarle la clave.</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-warning fw-bold">Guardar Cambios</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
+                        </tr>
+                        
+                        <tr th:if="${organizadores.isEmpty()}">
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                No hay organizadores registrados.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearOrgModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold">Registrar Nuevo Organizador</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <form th:action="@{/organizers/save}" th:object="${usuario}" method="post">
+                    <div class="modal-body">
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre Completo</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <input type="email" th:field="*{email}" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Teléfono</label>
+                            <input type="text" th:field="*{numTelefono}" class="form-control" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contraseña</label>
+                            <input type="password" th:field="*{contrasena}" class="form-control" required>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success fw-bold">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

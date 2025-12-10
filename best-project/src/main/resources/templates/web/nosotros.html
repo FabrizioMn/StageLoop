@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosotros - StageLoop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" th:href="@{/logo.ico}" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/css/estilos.css}">
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <div th:replace="~{fragments/general :: navbar}"></div>
+
+  <main class="flex-grow-1">
+    <div class="container py-4">
+      
+      <div class="p-5 mb-4 bg-dark text-white rounded-3 shadow" 
+           style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/1200/400?grayscale'); background-size: cover; background-position: center;">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Quiénes Somos</h1>
+          <p class="col-md-8 fs-4">
+            Somos una organización especializada en la planificación, difusión
+            y gestión integral de eventos culturales, corporativos y sociales,
+            con un enfoque digital que transforma la experiencia del público y
+            de los organizadores.
+          </p>
+        </div>
+      </div>
+
+      <div class="row align-items-md-stretch g-4">
+        
+        <div class="col-md-6">
+          <div class="h-100 p-5 text-white bg-danger rounded-3 shadow-sm">
+            <h2 class="fw-bold mb-3">🎯 Misión</h2>
+            <p class="fs-5">
+              Impulsar la experiencia cultural y social mediante la
+              planificación, difusión y gestión de eventos a través de
+              plataformas digitales, facilitando el acceso ágil y seguro a
+              entradas para espectáculos, conferencias y actividades de alto
+              impacto.
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="h-100 p-5 bg-warning text-dark border rounded-3 shadow-sm">
+            <h2 class="fw-bold mb-3">🚀 Visión</h2>
+            <p class="fs-5">
+              Ser la empresa líder en Latinoamérica en soluciones digitales
+              para la gestión de eventos y comercialización de entradas,
+              integrando innovación, trazabilidad y cercanía con el público en
+              cada experiencia.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/general :: footer}"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
