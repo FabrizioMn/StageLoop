@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import example.best_project.model.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByEmail(String email);
 
     boolean existsByNumTelefono(String numTelefono);
 
+    boolean existsByEmail(String email);
+
     List<Usuario> findByRol_NombreRol(String nombrerol);
-    
+
 }

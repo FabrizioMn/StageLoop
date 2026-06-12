@@ -1,9 +1,9 @@
 package example.best_project.services.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,18 +15,15 @@ import example.best_project.repository.RolRepository;
 import example.best_project.repository.UsuarioRepository;
 import example.best_project.services.EventoService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class EventoServiceImpl implements EventoService {
 
-    @Autowired
-    private EventoRepository eventoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private RolRepository rolRepository;
+    private final EventoRepository eventoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
 
     @Override
     public List<Evento> listarEventos() {
@@ -40,13 +37,14 @@ public class EventoServiceImpl implements EventoService {
 
     @Override
     public Evento guardarEvento(Evento evento) {
-        if (evento.getPrecio().doubleValue() < 0) {
+        if (evento.getPrecio() == null || evento.getPrecio().compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("El precio no puede ser negativo");
         }
         return eventoRepository.save(evento);
     }
 
     @Override
+    @Transactional
     public Evento actualizarEvento(Integer id, Evento eventoActualizado, MultipartFile archivoImagen) {
         Evento eventoExistente = obtenerEventoPorId(id);
 
@@ -79,11 +77,15 @@ public class EventoServiceImpl implements EventoService {
 
     @Override
     public Evento obtenerEventoPorId(Integer id) {
-        return eventoRepository.findById(id).orElse(null);
+        return eventoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado con el id:" + id));
     }
 
     @Override
     public void eliminarEvento(Integer id) {
+        if (!eventoRepository.existsById(id)) {
+            throw new RuntimeException("No se puede eliminar, evento no encontrado");
+        }
         eventoRepository.deleteById(id);
     }
 
@@ -101,25 +103,19 @@ public class EventoServiceImpl implements EventoService {
         evento.setEstado("Activo");
         eventoRepository.save(evento);
 
-        // -------------------------------------------------------
-        // VERIFICAR SI HAY QUE ASCENDER AL USUARIO
-        // -------------------------------------------------------
         Usuario dueno = evento.getOrganizador();
-        String rolActual = dueno.getRol().getNombreRol();
+        if (dueno != null && dueno.getRol() != null) {
+            String rolActual = dueno.getRol().getNombreRol();
+            if (!rolActual.equalsIgnoreCase("Administrador") &&
+                    !rolActual.equalsIgnoreCase("Organizador") &&
+                    !rolActual.equalsIgnoreCase("Personal")) {
 
-        // Solo ascendemos si NO es Admin Y NO es Organizador ya.
-        // Si es "Usuario", "Cliente", o cualquier otro rol bajo, entra aquí.
-        if (!rolActual.equalsIgnoreCase("Administrador") &&
-                !rolActual.equalsIgnoreCase("Organizador")
-                && !rolActual.equalsIgnoreCase("Pesonal")) {
+                Rol rolOrganizador = rolRepository.findByNombreRol("Organizador")
+                        .orElseThrow(() -> new RuntimeException("Rol Organizador no encontrado"));
 
-            Rol rolOrganizador = rolRepository.findByNombreRol("Organizador")
-                    .orElseThrow(() -> new RuntimeException("Rol Organizador no encontrado"));
-
-            dueno.setRol(rolOrganizador);
-            usuarioRepository.save(dueno);
-        } else {
-            System.out.println("El usuario ya tiene rango alto (" + rolActual + "). No se cambia su rol.");
+                dueno.setRol(rolOrganizador);
+                usuarioRepository.save(dueno);
+            }
         }
     }
 

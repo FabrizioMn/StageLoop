@@ -3,7 +3,6 @@ package example.best_project.services.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,28 +11,21 @@ import example.best_project.model.Usuario;
 import example.best_project.repository.RolRepository;
 import example.best_project.repository.UsuarioRepository;
 import example.best_project.services.UsuarioService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private RolRepository rolRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
+    private final PasswordEncoder passwordEncoder;
 
-
-
-
-    //===================
-    //USUARIOS
-    //===================
-
+    // USUARIOS
     @Override
     public Usuario registrarCliente(Usuario usuario) {
 
-        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new RuntimeException("El email ya esta registrado");
         }
 
@@ -69,10 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-
-    //===================
-    //ORGANIZADORES
-    //===================
+    // ORGANIZADORES
     @Override
     public List<Usuario> listarOrganizadores() {
         return usuarioRepository.findByRol_NombreRol("Organizador");
@@ -88,7 +77,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-
     @Override
     public Usuario actualizarOrganizador(Integer id, Usuario usuarioDetalles) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
@@ -97,7 +85,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioExistente.setNombre(usuarioDetalles.getNombre());
         usuarioExistente.setEmail(usuarioDetalles.getEmail());
         usuarioExistente.setNumTelefono(usuarioDetalles.getNumTelefono());
-
 
         if (usuarioDetalles.getContrasena() != null && !usuarioDetalles.getContrasena().isEmpty()) {
             String passEncriptada = passwordEncoder.encode(usuarioDetalles.getContrasena());
