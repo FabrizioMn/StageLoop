@@ -1,10 +1,19 @@
 package example.best_project.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Pago")
 public class Pago {
 
@@ -26,47 +35,10 @@ public class Pago {
     @JoinColumn(name = "idOrden", nullable = false)
     private Orden orden;
 
-    public Pago() {
-        this.fechaPago = LocalDateTime.now();
-    }
-
-    public Integer getIdPago() {
-        return idPago;
-    }
-
-    public void setIdPago(Integer idPago) {
-        this.idPago = idPago;
-    }
-
-    public BigDecimal getMonto() {
-        return monto;
-    }
-
-    public void setMonto(BigDecimal monto) {
-        this.monto = monto;
-    }
-
-    public String getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(String metodoPago) {
-        this.metodoPago = metodoPago;
-    }
-
-    public LocalDateTime getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(LocalDateTime fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
-    public Orden getOrden() {
-        return orden;
-    }
-
-    public void setOrden(Orden orden) {
-        this.orden = orden;
+    @PrePersist
+    protected void onCreate() {
+        if (this.fechaPago == null) {
+            this.fechaPago = LocalDateTime.now();
+        }
     }
 }

@@ -2,8 +2,16 @@ package example.best_project.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Usuario")
 public class Usuario {
 
@@ -22,7 +30,7 @@ public class Usuario {
     @Email(message = "Ingresa un correo válido (ej: hola@gmail.com)")
     private String email;
 
-    @Column(length = 50 , name = "num_telefono")
+    @Column(length = 50, name = "num_telefono")
     @NotBlank(message = "El teléfono es obligatorio")
     @Pattern(regexp = "^[0-9]{9}$", message = "El teléfono debe tener 9 dígitos")
     private String numTelefono;
@@ -35,55 +43,4 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "idRol", nullable = false)
     private Rol rol;
-
-    public Usuario() {
-    }
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNumTelefono() {
-        return numTelefono;
-    }
-
-    public void setNumTelefono(String numTelefono) {
-        this.numTelefono = numTelefono;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
 }

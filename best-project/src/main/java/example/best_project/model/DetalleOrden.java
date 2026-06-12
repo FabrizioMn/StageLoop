@@ -1,9 +1,18 @@
 package example.best_project.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Detalle_Orden")
 public class DetalleOrden {
 
@@ -25,49 +34,6 @@ public class DetalleOrden {
     @ManyToOne
     @JoinColumn(name = "idEvento", nullable = false)
     private Evento evento;
-
-    public DetalleOrden() {
-    }
-
-    public Integer getIdDetalleOrden() {
-        return idDetalleOrden;
-    }
-
-    public void setIdDetalleOrden(Integer idDetalleOrden) {
-        this.idDetalleOrden = idDetalleOrden;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public Orden getOrden() {
-        return orden;
-    }
-
-    public void setOrden(Orden orden) {
-        this.orden = orden;
-    }
-
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
 
     public BigDecimal getSubtotal() {
         return this.precioUnitario.multiply(new BigDecimal(this.cantidad));

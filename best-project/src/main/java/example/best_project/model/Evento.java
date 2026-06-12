@@ -2,6 +2,11 @@ package example.best_project.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,6 +14,10 @@ import java.time.LocalTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Evento")
 public class Evento {
 
@@ -58,13 +67,10 @@ public class Evento {
     @Min(value = 1, message = "Debe haber al menos 1 espacio")
     private Integer capacidad;
 
+    // ESTO SE DEBE CAMBIAR XD
     @Lob
     @Column(name = "imagen", columnDefinition = "LONGBLOB")
     private byte[] imagen;
-
-    // Getter y Setter
-    public byte[] getImagen() { return imagen; }
-    public void setImagen(byte[] imagen) { this.imagen = imagen; }
 
     @ManyToOne
     @JoinColumn(name = "idCategoria", nullable = false)
@@ -75,102 +81,4 @@ public class Evento {
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario organizador;
 
-    public Evento() {
-    }
-
-    public Integer getIdEvento() {
-        return idEvento;
-    }
-
-    public void setIdEvento(Integer idEvento) {
-        this.idEvento = idEvento;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public LocalDate getFechaEvento() {
-        return fechaEvento;
-    }
-
-    public void setFechaEvento(LocalDate fechaEvento) {
-        this.fechaEvento = fechaEvento;
-    }
-
-    public LocalTime getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public LocalTime getHoraFin() {
-        return horaFin;
-    }
-
-    public void setHoraFin(LocalTime horaFin) {
-        this.horaFin = horaFin;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getLugarEvento() {
-        return lugarEvento;
-    }
-
-    public void setLugarEvento(String lugarEvento) {
-        this.lugarEvento = lugarEvento;
-    }
-
-    public BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
-    }
-
-    public Integer getCapacidad() {
-        return capacidad;
-    }
-
-    public void setCapacidad(Integer capacidad) {
-        this.capacidad = capacidad;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public Usuario getOrganizador() {
-        return organizador;
-    }
-
-    public void setOrganizador(Usuario organizador) {
-        this.organizador = organizador;
-    }
 }

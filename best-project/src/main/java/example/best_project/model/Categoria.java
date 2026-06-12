@@ -1,8 +1,16 @@
 package example.best_project.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Categoria")
 public class Categoria {
 
@@ -13,23 +21,4 @@ public class Categoria {
 
     @Column(nullable = false, length = 100)
     private String nombreCategoria;
-
-    public Categoria() {
-    }
-
-    public Integer getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Integer idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public String getNombreCategoria() {
-        return nombreCategoria;
-    }
-
-    public void setNombreCategoria(String nombreCategoria) {
-        this.nombreCategoria = nombreCategoria;
-    }
 }
