@@ -1,14 +1,10 @@
-# 🚀 [StageLoop]
+# 🏗️ StageLoop
 
-> **AVISO IMPORTANTE: PROYECTO EN PROCESO DE REFACTORIZACIÓN**
-> 
-> Actualmente me encuentro auditando y refactorizando esta base de código antigua para implementar estándares modernos de desarrollo, corregir antipatrones y optimizar la arquitectura del backend. 
+📢 **¡Hola! Este repositorio se encuentra bajo reconstrucción masiva.** Creé este proyecto en las primeras etapas de mi camino como desarrollador Backend. Hoy, con más experiencia, mejores fundamentos de **Spring Boot** y un ojo más crítico, he vuelto para aplicar ingeniería inversa sobre mi propio código.
 
----
+### 📈 ¿Qué estoy cambiando?
+* Identificación y corrección de antipatrones de diseño.
+* Refactorización de la capa de persistencia y servicios.
+* Escalabilidad del sistema (evaluando migración a nuevas estructuras).
 
-### 🛠️ Objetivos de la mejora actual:
-* **Optimización de Arquitectura:** Migración de código acoplado hacia patrones de diseño más limpios y escalables.
-* **Seguridad y Rendimiento:** Actualización de dependencias críticas y revisión de la lógica de negocio en Spring Boot.
-* **Buenas Prácticas:** Eliminación de código redundante (deuda técnica).
-
-*El proyecto puede presentar cambios drásticos en las próximas semanas. ¡Gracias por la paciencia!*
+*¡Vuelve pronto para ver la nueva y mejorada versión con código de nivel!* 🚀
