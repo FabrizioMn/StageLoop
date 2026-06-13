@@ -3,7 +3,6 @@ package example.best_project.controllers;
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,24 +22,17 @@ import example.best_project.services.EventoService;
 import example.best_project.services.UsuarioService;
 import example.best_project.services.VentaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class WebController {
 
-    @Autowired
-    private EventoService eventoService;
-
-    @Autowired
-    private CategoriaService categoriaService;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private VentaService ventaService;
-
-    @Autowired
-    private OrdenRepository ordenRepository;
+    private final EventoService eventoService;
+    private final CategoriaService categoriaService;
+    private final UsuarioService usuarioService;
+    private final VentaService ventaService;
+    private final OrdenRepository ordenRepository;
 
     @GetMapping("/")
     public String home(Model model) {

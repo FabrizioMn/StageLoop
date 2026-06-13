@@ -14,6 +14,7 @@ import example.best_project.repository.OrdenRepository;
 import example.best_project.repository.PagoRepository;
 import example.best_project.services.VentaService;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,7 +28,7 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     @Transactional
-    public void procesarCompra(Usuario comprador, Integer idEvento, Integer cantidad) {
+    public void procesarCompra(Usuario comprador,@NonNull Integer idEvento, Integer cantidad) {
 
         if (cantidad == null || cantidad <= 0) {
             throw new RuntimeException("La cantidad de entradas debe ser mayor a cero");
@@ -66,7 +67,7 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     @Transactional
-    public void eliminarOrden(Integer idOrden) {
+    public void eliminarOrden(@NonNull Integer idOrden) {
         Orden orden = ordenRepository.findById(idOrden)
                 .orElseThrow(() -> new RuntimeException("La orden no existe"));
 

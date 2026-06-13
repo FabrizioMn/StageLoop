@@ -2,7 +2,8 @@ package example.best_project.controllers;
 
 import example.best_project.model.Evento;
 import example.best_project.services.EventoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/imagen")
+@RequiredArgsConstructor
 public class ImagenController {
 
-    @Autowired
-    private EventoService eventoService;
+    private final EventoService eventoService;
 
     @GetMapping("/ver/{id}")
     public ResponseEntity<byte[]> mostrarImagen(@PathVariable Integer id) {

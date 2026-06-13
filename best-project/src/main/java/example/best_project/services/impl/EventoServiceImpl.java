@@ -15,6 +15,7 @@ import example.best_project.repository.RolRepository;
 import example.best_project.repository.UsuarioRepository;
 import example.best_project.services.EventoService;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -76,13 +77,13 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public Evento obtenerEventoPorId(Integer id) {
+    public Evento obtenerEventoPorId(@NonNull Integer id) {
         return eventoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con el id:" + id));
     }
 
     @Override
-    public void eliminarEvento(Integer id) {
+    public void eliminarEvento(@NonNull Integer id) {
         if (!eventoRepository.existsById(id)) {
             throw new RuntimeException("No se puede eliminar, evento no encontrado");
         }
@@ -96,7 +97,7 @@ public class EventoServiceImpl implements EventoService {
 
     @Override
     @Transactional
-    public void aprobarEvento(Integer idEvento) {
+    public void aprobarEvento(@NonNull Integer idEvento) {
         Evento evento = eventoRepository.findById(idEvento)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
 
@@ -120,7 +121,7 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public void rechazarEvento(Integer idEvento) {
+    public void rechazarEvento(@NonNull Integer idEvento) {
         Evento evento = eventoRepository.findById(idEvento)
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
         evento.setEstado("Rechazado");

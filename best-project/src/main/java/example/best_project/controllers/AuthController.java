@@ -1,6 +1,5 @@
 package example.best_project.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,12 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import example.best_project.model.Usuario;
 import example.best_project.services.UsuarioService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/login")
     public String login() {

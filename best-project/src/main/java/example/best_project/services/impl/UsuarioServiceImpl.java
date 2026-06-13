@@ -11,6 +11,7 @@ import example.best_project.model.Usuario;
 import example.best_project.repository.RolRepository;
 import example.best_project.repository.UsuarioRepository;
 import example.best_project.services.UsuarioService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -52,12 +53,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario obtenerPorId(Integer id) {
+    public Usuario obtenerPorId(@NonNull Integer id) {
         return usuarioRepository.findById(id).orElse(null);
     }
 
     @Override
-    public void eliminarUsuario(Integer id) {
+    public void eliminarUsuario(@NonNull Integer id) {
         usuarioRepository.deleteById(id);
     }
 
@@ -78,7 +79,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario actualizarOrganizador(Integer id, Usuario usuarioDetalles) {
+    public Usuario actualizarOrganizador(@NonNull Integer id, Usuario usuarioDetalles) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
