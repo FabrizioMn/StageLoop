@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import example.best_project.model.Evento;
+import example.best_project.event.domain.Evento;
 
 public interface EventoService {
 

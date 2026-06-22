@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import example.best_project.model.Evento;
+import example.best_project.event.domain.Evento;
 import example.best_project.model.Rol;
 import example.best_project.model.Usuario;
 import example.best_project.repository.EventoRepository;

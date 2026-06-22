@@ -3,11 +3,11 @@ package example.best_project.services.impl;
 import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
-import example.best_project.model.DetalleOrden;
-import example.best_project.model.Evento;
-import example.best_project.model.Orden;
-import example.best_project.model.Pago;
+import example.best_project.event.domain.Evento;
 import example.best_project.model.Usuario;
+import example.best_project.order.domain.DetalleOrden;
+import example.best_project.order.domain.Orden;
+import example.best_project.payment.domain.Pago;
 import example.best_project.repository.DetalleOrdenRepository;
 import example.best_project.repository.EventoRepository;
 import example.best_project.repository.OrdenRepository;

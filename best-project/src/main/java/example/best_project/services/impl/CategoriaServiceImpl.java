@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import example.best_project.model.Categoria;
+import example.best_project.event.domain.Categoria;
 import example.best_project.repository.CategoriaRepository;
 import example.best_project.services.CategoriaService;
 import lombok.RequiredArgsConstructor;
