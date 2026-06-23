@@ -17,7 +17,7 @@ import example.best_project.user.domain.User;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
 
     @Id
